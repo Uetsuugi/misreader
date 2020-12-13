@@ -3,6 +3,7 @@
 #include <string>
 #include <sstream>
 #include <vector>
+#include <iomanip>
 
 struct item
 {
@@ -12,7 +13,7 @@ struct item
     std::string iai_name;
     std::string ai_textfile;
     int id {186};
-    long position[3] {0, 0, 0};
+    float position[3] {0, 0, 0};
     int team {1};
     int wpdistance {0};
     int wp_adv_trigger {0};
@@ -51,9 +52,15 @@ int getSpaceCount(std::string& line)
 }
 
 ///position to correct
-long ptoc(long &value)
+float ptoc(float value)
 {
-    ///convert position long, to correct values
+    ///convert position float, to correct value
+    return value == 0.f ? 0.f : (value - 65536.f) / 1000.f +(65536.f / 65536.f);
+}
+
+void ctop(float value)
+{
+    std::cout << "Converted value in DFBHD format:\n\t>" << ((value * 1000.f) + 65536.f - 1000.f) << std::endl;
 }
 
 void findKey(std::vector<std::string>& top_keys_vec, std::vector<std::string>& keys_vec, std::ifstream& file)
@@ -79,9 +86,9 @@ void findKey(std::vector<std::string>& top_keys_vec, std::vector<std::string>& k
                     int it{0};
                     while(std::getline(ss, delim_value, ' '))
                     {
-                        std::cout << it << "[in]key: " << delim_value << std::endl;
+                        std::cout << it << "[in]key: " << std::setprecision(8) << ptoc(std::stof(delim_value)) << std::endl;
 
-                        x.position[it] = std::stol(delim_value); //double check
+                        x.position[it] = std::stof(delim_value); //double check
 
                         ++it;
                     }
@@ -108,6 +115,7 @@ int main()
     findKey(tk, k, inFile);
     inFile.close();
 
+    ctop(13006.786f); //example
     std::cout << "\nitem at 0, pos 0: " << items_vec.at(0).position[0] << std::flush;
 
     return 0;
