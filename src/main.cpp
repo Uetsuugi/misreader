@@ -50,9 +50,14 @@ int getSpaceCount(std::string& line)
     return space_count;
 }
 
+///position to correct
+long ptoc(long &value)
+{
+    ///convert position long, to correct values
+}
+
 void findKey(std::vector<std::string>& top_keys_vec, std::vector<std::string>& keys_vec, std::ifstream& file)
 {
-    file.open(R"(C:\Users\---\CLionProjects\MisReader\cm.mis)");
     for(std::string line; getline(file, line);)
     {
         for(auto& key : keys_vec)
@@ -90,9 +95,8 @@ void findKey(std::vector<std::string>& top_keys_vec, std::vector<std::string>& k
 int main()
 {
     std::ifstream inFile;
-    inFile.open(R"(C:\Users\---\CLionProjects\MisReader\cm.mis)");
+    inFile.open(R"(C:\Users\---\CLionProjects\misreader\cm.mis)");
 
-    inFile.close();
     std::vector<std::string> tk;
     std::vector<std::string> k;
 
@@ -102,6 +106,7 @@ int main()
     k.emplace_back("  position");
 
     findKey(tk, k, inFile);
+    inFile.close();
 
     std::cout << "\nitem at 0, pos 0: " << items_vec.at(0).position[0] << std::flush;
 
