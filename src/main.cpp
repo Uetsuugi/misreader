@@ -60,7 +60,7 @@ float ptoc(float value)
 
 void ctop(float value)
 {
-    std::cout << "Converted value in DFBHD format:\n\t>" << ((value * 1000.f) + 65536.f - 1000.f) << std::endl;
+    std::cout << "Converted value in DFBHD format:\n\t>" << ((65536.f) * (value * 100.f / 65536.f) - 100.f) * 10.f + 65536.f << std::endl;
 }
 
 void findKey(std::vector<std::string>& top_keys_vec, std::vector<std::string>& keys_vec, std::ifstream& file)
@@ -88,7 +88,7 @@ void findKey(std::vector<std::string>& top_keys_vec, std::vector<std::string>& k
                     {
                         std::cout << it << "[in]key: " << std::setprecision(8) << ptoc(std::stof(delim_value)) << std::endl;
 
-                        x.position[it] = std::stof(delim_value); //double check
+                        x.position[it] = ptoc(std::stof(delim_value)); //double check
 
                         ++it;
                     }
